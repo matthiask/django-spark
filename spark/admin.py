@@ -9,4 +9,9 @@ class EventAdmin(admin.ModelAdmin):
         'key',
         'group',
         'created_at',
+        'context',
+    )
+    list_filter = (
+        'group',
+        'created_at',
     )

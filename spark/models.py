@@ -17,11 +17,15 @@ class Event(models.Model):
         _('created at'),
         auto_now_add=True,
     )
+    context = models.TextField(
+        _('context'),
+        blank=True,
+    )
 
     class Meta:
         ordering = ['-created_at']
         verbose_name = _('event')
-        verbose_name = _('events')
+        verbose_name_plural = _('events')
 
     def __str__(self):
         return self.key
