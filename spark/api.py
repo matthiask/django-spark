@@ -10,7 +10,8 @@ HANDLERS = []
 
 
 # Good enough for now.
-Event = types.SimpleNamespace
+class Event(types.SimpleNamespace):
+    pass
 
 
 def process_events(iterable):
