@@ -28,7 +28,7 @@ def process_events(iterable):
             pass
         else:
             for group, handler in HANDLERS:
-                if re.search(event.group, group):
+                if re.search(group, event.group):
                     handler(event)
 
 
