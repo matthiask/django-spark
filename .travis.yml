@@ -1,0 +1,15 @@
+language: python
+sudo: false
+cache: pip
+python:
+  - "3.4"
+  - "3.5"
+env:
+  - REQ='Django>=2.0,<2.1'
+matrix:
+install:
+  - pip install -U pip wheel
+  - pip install $REQ flake8
+  - python setup.py install
+# command to run tests, e.g. python setup.py test
+script: "cd tests && ./manage.py test testapp && cd .. && flake8 ."
