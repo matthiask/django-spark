@@ -23,7 +23,7 @@ def process_events(iterable):
                 RealEvent.objects.create(
                     key=event.key,
                     group=event.group,
-                    context=repr(getattr(event, 'context', {})),
+                    context=repr(event),
                 )
         except IntegrityError:
             pass
