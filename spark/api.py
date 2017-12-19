@@ -4,8 +4,6 @@ import types
 from django.db import IntegrityError, transaction
 from django.db.models import signals
 
-from spark.models import Event as RealEvent
-
 
 MODEL_SOURCES = {}
 HANDLERS = []
@@ -16,6 +14,8 @@ Event = types.SimpleNamespace
 
 
 def process_events(iterable):
+    from spark.models import Event as RealEvent
+
     for event in iterable:
         try:
             with transaction.atomic():
