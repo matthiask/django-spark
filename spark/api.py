@@ -33,20 +33,13 @@ def process_events(iterable):
                     handler(event)
 
 
-def create_post_save_handler(source):
-    def on_post_save(sender, instance, **kwargs):
-        process_events(source(instance))
-    return on_post_save
-
-
 def register_model_event_source(*, sender, source):
     MODEL_SOURCES.setdefault(sender, []).append(source)
 
-    signals.post_save.connect(
-        create_post_save_handler(source),
-        sender=sender,
-        weak=False,
-    )
+    def on_post_save(sender, instance, **kwargs):
+        process_events(source(instance))
+
+    signals.post_save.connect(on_post_save, sender=sender, weak=False)
 
 
 def register_group_handler(*, group, handler):
