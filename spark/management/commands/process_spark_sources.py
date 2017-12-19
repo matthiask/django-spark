@@ -8,6 +8,6 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         for model, sources in api.MODEL_SOURCES.items():
-            for source in sources:
-                for instance in model.objects.all():
+            for instance in model.objects.all():
+                for source in sources:
                     api.process_events(source(instance))
