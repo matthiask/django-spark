@@ -21,9 +21,7 @@ def process_events(iterable):
         try:
             with transaction.atomic():
                 RealEvent.objects.create(
-                    key=event.key,
-                    group=event.group,
-                    context=repr(event),
+                    key=event.key, group=event.group, context=repr(event)
                 )
         except IntegrityError:
             pass

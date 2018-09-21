@@ -7,20 +7,32 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('key', models.CharField(max_length=100, primary_key=True, serialize=False, verbose_name='key')),
-                ('group', models.CharField(db_index=True, max_length=50, verbose_name='group')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
+                (
+                    "key",
+                    models.CharField(
+                        max_length=100,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="key",
+                    ),
+                ),
+                (
+                    "group",
+                    models.CharField(
+                        db_index=True, max_length=50, verbose_name="group"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
             ],
-            options={
-                'verbose_name': 'events',
-                'ordering': ['-created_at'],
-            },
-        ),
+            options={"verbose_name": "events", "ordering": ["-created_at"]},
+        )
     ]

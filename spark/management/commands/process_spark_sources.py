@@ -4,7 +4,7 @@ from spark import api
 
 
 class Command(BaseCommand):
-    help = 'Sends all registered models through all event sources'
+    help = "Sends all registered models through all event sources"
 
     def handle(self, **options):
         for model, sources in api.MODEL_SOURCES.items():

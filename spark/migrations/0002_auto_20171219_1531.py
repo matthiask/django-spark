@@ -5,18 +5,20 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('spark', '0001_initial'),
-    ]
+    dependencies = [("spark", "0001_initial")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='event',
-            options={'ordering': ['-created_at'], 'verbose_name': 'event', 'verbose_name_plural': 'events'},
+            name="event",
+            options={
+                "ordering": ["-created_at"],
+                "verbose_name": "event",
+                "verbose_name_plural": "events",
+            },
         ),
         migrations.AddField(
-            model_name='event',
-            name='context',
-            field=models.TextField(blank=True, verbose_name='context'),
+            model_name="event",
+            name="context",
+            field=models.TextField(blank=True, verbose_name="context"),
         ),
     ]
