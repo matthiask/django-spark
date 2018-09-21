@@ -9,13 +9,13 @@ from testapp.models import Stuff
 
 def events_from_stuff(stuff):
     yield api.Event(
-        group="stuff_created",
-        key="stuff_created_{}".format(stuff.pk),
-        stuff=stuff,
+        group="stuff_created", key="stuff_created_{}".format(stuff.pk), stuff=stuff
     )
 
 
 events = []
+
+
 def stuff_handler(event):
     events.append(event)
 
