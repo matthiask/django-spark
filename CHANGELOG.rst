@@ -5,6 +5,7 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Reformatted the code using black.
+- Finally added a testsuite.
 
 
 `0.1`_ (2017-12-19)

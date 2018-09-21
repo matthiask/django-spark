@@ -2,14 +2,24 @@ language: python
 sudo: false
 cache: pip
 python:
-  - "3.4"
+  - "3.6"
   - "3.5"
 env:
+  - REQ='Django>=2.1,<2.2'
   - REQ='Django>=2.0,<2.1'
 matrix:
 install:
-  - pip install -U pip wheel
-  - pip install $REQ flake8
+  - pip install -U pip setuptools wheel
+  - pip install $REQ
   - python setup.py install
-# command to run tests, e.g. python setup.py test
-script: "cd tests && ./manage.py test testapp && cd .. && flake8 ."
+script: cd tests && ./manage.py test -v 2 testapp && cd ..
+
+jobs:
+  include:
+    - stage: style
+      env: REQ=none
+      install: skip
+      script:
+        - pip install black flake8
+        - flake8 .
+        - black --check feincms3 tests
