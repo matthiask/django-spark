@@ -1,7 +1,2 @@
-==========================================
-django-spark - Event sourcing and handling
-==========================================
-
-Version |release|
-
+.. include:: ../README.rst
 .. include:: ../CHANGELOG.rst

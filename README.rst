@@ -5,6 +5,8 @@ django-spark - Event sourcing and handling
 .. image:: https://travis-ci.org/matthiask/django-spark.png?branch=master
    :target: https://travis-ci.org/matthiask/django-spark
 
+Version |release|
+
 This is not supposed to be real documentation; it's more a reminder for
 myself.
 
@@ -24,7 +26,9 @@ Some usage example code
 =======================
 
 Given a challenge, create events for the challenge (the specifics do not
-matter)::
+matter):
+
+.. code-block:: python
 
     from datetime import date
     from spark import api
@@ -64,7 +68,9 @@ matter)::
 
 
 Send mails related to challenges (uses django-authlib's
-``render_to_mail``)::
+``render_to_mail``):
+
+.. code-block:: python
 
     from authlib.email import render_to_mail
 
@@ -79,7 +85,9 @@ Send mails related to challenges (uses django-authlib's
         ).send(fail_silently=True)
 
 
-Register the handlers::
+Register the handlers:
+
+.. code-block:: python
 
     class ChallengesConfig(AppConfig):
         def ready(self):
@@ -107,7 +115,9 @@ Alternatively, you might want to handle events outside the
 request-response cycle. This can be achieved by only registering the
 model event source e.g. in a management command, and then sending all
 model instances through all event sources, and directly processing those
-events, for example like this::
+events, for example like this:
+
+.. code-block:: python
 
     from spark import api
 
