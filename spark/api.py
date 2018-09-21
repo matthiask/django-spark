@@ -15,20 +15,18 @@ class Event(types.SimpleNamespace):
 
 
 def process_events(iterable):
-    from spark.models import Event as RealEvent
+    from spark.models import Event as E
 
-    for event in iterable:
+    for e in iterable:
         try:
             with transaction.atomic():
-                RealEvent.objects.create(
-                    key=event.key, group=event.group, context=repr(event)
-                )
+                E.objects.create(key=e.key, group=e.group, context=repr(e))
         except IntegrityError:
             pass
         else:
             for group, handler in HANDLERS:
-                if re.search(group, event.group):
-                    handler(event)
+                if re.search(group, e.group):
+                    handler(e)
 
 
 def register_model_event_source(*, sender, source):
