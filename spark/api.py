@@ -1,5 +1,4 @@
 import re
-import types
 
 from django.db.models import signals
 
@@ -8,18 +7,13 @@ MODEL_SOURCES = {}
 HANDLERS = []
 
 
-# Good enough for now.
-class Event(types.SimpleNamespace):
-    pass
-
-
 def process_events(iterable):
     from .models import Event
 
     for e in iterable:
-        if Event.objects.create_if_new(key=e.key, group=e.group, context=repr(e)):
+        if Event.objects.create_if_new(e):
             for group, handler in HANDLERS:
-                if re.search(group, e.group):
+                if re.search(group, e["group"]):
                     handler(e)
 
 

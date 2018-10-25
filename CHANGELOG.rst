@@ -4,6 +4,11 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Changed API events to be dictionaries instead of
+  ``types.SimpleNamespace`` objects.
+- Added a new ``Event.objects.create_if_new`` queryset method which
+  understands event dictionaries.
+
 
 `0.2`_ (2018-10-16)
 ~~~~~~~~~~~~~~~~~~~

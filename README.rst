@@ -37,34 +37,34 @@ matter):
         if not challenge.is_active:
             return
 
-        yield api.Event(
-            group='challenge_created',
-            key='challenge_created_%s' % challenge.pk,
+        yield {
+            "group": 'challenge_created',
+            "key": 'challenge_created_%s' % challenge.pk,
             # Attach any metadata to the Event (it is a types.SimpleNamespace)
-            challenge=challenge,
-        )
+            "challenge": challenge,
+        }
 
         if (date.today() - challenge.start_date).days > 2:
             if challenge.donations.count() < 2:
-                yield api.Event(
-                    group='challenge_inactivity_2d',
-                    key='challenge_inactivity_2d_%s' % challenge.pk,
-                    challenge=challenge,
-                )
+                yield {
+                    "group": 'challenge_inactivity_2d',
+                    "key": 'challenge_inactivity_2d_%s' % challenge.pk,
+                    "challenge": challenge,
+                }
 
         if (challenge.end_date - date.today()).days <= 2:
-            yield api.Event(
-                group='challenge_ends_2d',
-                key='challenge_ends_2d_%s' % challenge.pk,
-                challenge=challenge,
-            )
+            yield {
+                "group": 'challenge_ends_2d',
+                "key": 'challenge_ends_2d_%s' % challenge.pk,
+                "challenge": challenge,
+            }
 
         if challenge.end_date < date.today():
-            yield api.Event(
-                group='challenge_ended',
-                key='challenge_ended_%s' % challenge.pk,
-                challenge=challenge,
-            )
+            yield {
+                "group": 'challenge_ended',
+                "key": 'challenge_ended_%s' % challenge.pk,
+                "challenge": challenge,
+            }
 
 
 Send mails related to challenges (uses django-authlib's
@@ -77,11 +77,11 @@ Send mails related to challenges (uses django-authlib's
     def send_challenge_mails(event):
         render_to_mail(
             # Different mail text per event group:
-            'challenges/mails/%s' % event.group,
+            "challenges/mails/%s" % event["group"],
             {
-                'challenge': event.challenge,
+                "challenge": event["challenge"],
             },
-            to=[event.challenge.user.email],
+            to=[event["challenge"].user.email],
         ).send(fail_silently=True)
 
 

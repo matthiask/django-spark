@@ -8,9 +8,11 @@ from testapp.models import Stuff
 
 
 def events_from_stuff(stuff):
-    yield api.Event(
-        group="stuff_created", key="stuff_created_{}".format(stuff.pk), stuff=stuff
-    )
+    yield {
+        "group": "stuff_created",
+        "key": "stuff_created_{}".format(stuff.pk),
+        "stuff": stuff,
+    }
 
 
 events = []
@@ -49,9 +51,12 @@ class SparkTestCase(TestCase):
         self.assertEqual(event.key, "stuff_created_{}".format(stuff.pk))
         self.assertEqual(event.group, "stuff_created")
         self.assertEqual(event.key, "{}".format(event))
+        self.assertEqual(
+            event.context, "{{'stuff': <Stuff: Stuff object ({})>}}".format(stuff.pk)
+        )
 
         self.assertEqual(len(events), 1)
-        self.assertEqual(events[0].stuff, stuff)
+        self.assertEqual(events[0]["stuff"], stuff)
 
         # Create some duplicates
         for stuff in Stuff.objects.all():
