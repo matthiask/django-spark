@@ -1,5 +1,14 @@
-from django.db import models
+from django.db import IntegrityError, models, transaction
 from django.utils.translation import ugettext_lazy as _
+
+
+class EventQuerySet(models.QuerySet):
+    def create_if_new(self, **kwargs):
+        try:
+            with transaction.atomic():
+                return self.create(**kwargs)
+        except IntegrityError:
+            return None
 
 
 class Event(models.Model):
@@ -7,6 +16,8 @@ class Event(models.Model):
     group = models.CharField(_("group"), max_length=50, db_index=True)
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
     context = models.TextField(_("context"), blank=True)
+
+    objects = EventQuerySet.as_manager()
 
     class Meta:
         ordering = ["-created_at"]

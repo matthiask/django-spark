@@ -1,7 +1,6 @@
 import re
 import types
 
-from django.db import IntegrityError, transaction
 from django.db.models import signals
 
 
@@ -15,15 +14,10 @@ class Event(types.SimpleNamespace):
 
 
 def process_events(iterable):
-    from spark.models import Event as E
+    from .models import Event
 
     for e in iterable:
-        try:
-            with transaction.atomic():
-                E.objects.create(key=e.key, group=e.group, context=repr(e))
-        except IntegrityError:
-            pass
-        else:
+        if Event.objects.create_if_new(key=e.key, group=e.group, context=repr(e)):
             for group, handler in HANDLERS:
                 if re.search(group, e.group):
                     handler(e)
