@@ -11,8 +11,11 @@ class ConditionInline(admin.TabularInline):
 @admin.register(models.Generator)
 class GeneratorAdmin(admin.ModelAdmin):
     inlines = [ConditionInline]
-    list_display = ["group", "context_value"]
+    list_display = ["group", "context_value", "conditions_display"]
     ordering = ["group"]
+
+    def get_queryset(self, request):
+        return self.model.objects.prefetch_related("conditions")
 
     def formfield_for_choice_field(self, db_field, request, **kwargs):
         if db_field.name == "context":
@@ -21,3 +24,6 @@ class GeneratorAdmin(admin.ModelAdmin):
 
     def context_value(self, instance):
         return instance.context
+
+    def conditions_display(self, instance):
+        return " && ".join(str(condition) for condition in instance.conditions.all())
