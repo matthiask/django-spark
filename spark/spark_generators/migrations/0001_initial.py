@@ -60,12 +60,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("group", models.CharField(max_length=50, verbose_name="group")),
-                (
-                    "context",
-                    models.CharField(
-                        choices=[("", "")], max_length=50, verbose_name="context"
-                    ),
-                ),
+                ("context", models.CharField(max_length=50, verbose_name="context")),
             ],
             options={"verbose_name": "generator", "verbose_name_plural": "generators"},
         ),

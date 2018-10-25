@@ -11,7 +11,7 @@ CONTEXTS = {}
 
 class Generator(models.Model):
     group = models.CharField(_("group"), max_length=50)
-    context = models.CharField(_("context"), max_length=50, choices=[("", "")])
+    context = models.CharField(_("context"), max_length=50)
 
     class Meta:
         verbose_name = _("generator")

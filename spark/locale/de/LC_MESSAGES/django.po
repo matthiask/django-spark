@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-25 22:17+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps.py:7
+msgid "Spark"
+msgstr "Funken"
+
+#: models.py:20
+msgid "key"
+msgstr "Schlüssel"
+
+#: models.py:21 spark_generators/models.py:13
+msgid "group"
+msgstr "Gruppe"
+
+#: models.py:22
+msgid "created at"
+msgstr "erstellt um"
+
+#: models.py:23 spark_generators/models.py:14
+msgid "context"
+msgstr "Kontext"
+
+#: models.py:29
+msgid "event"
+msgstr "Ereignis"
+
+#: models.py:30
+msgid "events"
+msgstr "Ereignisse"
+
+#: spark_generators/admin.py:32 spark_generators/models.py:58
+msgid "conditions"
+msgstr "Bedingungen"
+
+#: spark_generators/apps.py:7
+msgid "Spark generators"
+msgstr "Funkengeneratoren"
+
+#: spark_generators/models.py:17 spark_generators/models.py:47
+msgid "generator"
+msgstr "Generator"
+
+#: spark_generators/models.py:18
+msgid "generators"
+msgstr "Generatoren"
+
+#: spark_generators/models.py:49
+msgid "variable"
+msgstr "Variable"
+
+#: spark_generators/models.py:51
+msgid "type"
+msgstr "Typ"
+
+#: spark_generators/models.py:53
+msgid "value"
+msgstr "Wert"
+
+#: spark_generators/models.py:57
+msgid "condition"
+msgstr "Bedingung"
