@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.contrib.auth.models import User
+from django.test import Client, TestCase
 
 from spark.spark_generators.models import CONTEXTS, Generator, events_from_generators
 
@@ -69,3 +70,28 @@ class GeneratorsTestCase(TestCase):
             events = list(events_from_generators())
 
         self.assertEqual(events, [])
+
+    def test_admin(self):
+        g = Generator.objects.create(context="stuff", group="stuff_bla")
+        g.conditions.create(variable="key_length", type=">", value=5)
+
+        user = User.objects.create_superuser("admin", "admin@example.com", "admin")
+        client = Client()
+        client.force_login(user)
+
+        response = client.get("/admin/spark_generators/generator/")
+        self.assertContains(response, ">stuff_bla</a>")
+        self.assertContains(response, "key_length &gt; 5")
+
+        response = client.get(
+            "/admin/spark_generators/generator/{}/change/".format(g.pk)
+        )
+        self.assertContains(
+            response,
+            """
+            <select name="context" maxlength="50" id="id_context">
+            <option value="stuff" selected>stuff</option>
+            </select>
+            """,
+            html=True,
+        )
