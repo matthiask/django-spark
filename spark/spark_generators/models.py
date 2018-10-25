@@ -78,9 +78,7 @@ def pure_function_memoizer():
 
 
 def events_from_generators(queryset=None):
-    if queryset is None:
-        queryset = Generator.objects.all()
-
+    queryset = Generator.objects.all() if queryset is None else queryset
     memoizer = pure_function_memoizer()
 
     for generator in queryset.prefetch_related("conditions"):

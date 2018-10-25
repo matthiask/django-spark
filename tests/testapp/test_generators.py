@@ -57,3 +57,15 @@ class GeneratorsTestCase(TestCase):
             set(event["key"] for event in events),
             set(("group1_{}".format(stuff.pk), "group2_{}".format(stuff.pk))),
         )
+
+    def test_not_exists(self):
+        g = Generator.objects.create(context="stuff", group="stuff_bla")
+        g.conditions.create(variable="NOT_EXISTS", type=">", value=5)
+
+        Stuff.objects.create(key="test")
+
+        # No queries for creating stuffs ... all are skipped
+        with self.assertNumQueries(3):
+            events = list(events_from_generators())
+
+        self.assertEqual(events, [])
