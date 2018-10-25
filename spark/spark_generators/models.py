@@ -61,7 +61,7 @@ class Condition(models.Model):
         return "{o.variable} {o.type} {o.value}".format(o=self)
 
     def as_condition(self):
-        op = [op for d, op in self.TYPES if d == self.type][0]
+        op = dict(self.TYPES)[self.type]
         return {"variable": self.variable, "test": lambda v: op(v, self.value)}
 
 

@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "testapp",
     "spark",
+    "spark.spark_generators",
 ]
 
 MEDIA_ROOT = "/media/"
