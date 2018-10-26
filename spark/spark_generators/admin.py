@@ -48,14 +48,15 @@ class GeneratorAdmin(admin.ModelAdmin):
 
     def description(self, instance):
         source = SOURCES[instance.source]
-        if "variables_description" not in source:
+        variables = source["variables"]
+        if not hasattr(variables, "variables_description"):
             return _("Description not available.")
         return format_html(
             "{} {}",
             _('The "%s" source provides the following variables:')
             % capfirst(source.get("verbose_name", instance.source)),
             format_html_join(
-                "", "<br><strong>{}</strong>: {}", source.get("variables_description")
+                "", "<br><strong>{}</strong>: {}", variables.variables_description
             ),
         )
 
