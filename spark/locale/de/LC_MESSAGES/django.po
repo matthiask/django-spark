@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-25 22:17+0200\n"
+"POT-Creation-Date: 2018-10-26 09:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Funken"
 msgid "key"
 msgstr "Schlüssel"
 
-#: models.py:21 spark_generators/models.py:13
+#: models.py:21 spark_generators/models.py:8
 msgid "group"
 msgstr "Gruppe"
 
@@ -34,7 +34,7 @@ msgstr "Gruppe"
 msgid "created at"
 msgstr "erstellt um"
 
-#: models.py:23 spark_generators/models.py:14
+#: models.py:23
 msgid "context"
 msgstr "Kontext"
 
@@ -46,7 +46,7 @@ msgstr "Ereignis"
 msgid "events"
 msgstr "Ereignisse"
 
-#: spark_generators/admin.py:32 spark_generators/models.py:58
+#: spark_generators/admin.py:42 spark_generators/models.py:53
 msgid "conditions"
 msgstr "Bedingungen"
 
@@ -54,26 +54,30 @@ msgstr "Bedingungen"
 msgid "Spark generators"
 msgstr "Funkengeneratoren"
 
-#: spark_generators/models.py:17 spark_generators/models.py:47
+#: spark_generators/models.py:9
+msgid "source"
+msgstr "Quelle"
+
+#: spark_generators/models.py:12 spark_generators/models.py:42
 msgid "generator"
 msgstr "Generator"
 
-#: spark_generators/models.py:18
+#: spark_generators/models.py:13
 msgid "generators"
 msgstr "Generatoren"
 
-#: spark_generators/models.py:49
+#: spark_generators/models.py:44
 msgid "variable"
 msgstr "Variable"
 
-#: spark_generators/models.py:51
-msgid "type"
-msgstr "Typ"
+#: spark_generators/models.py:46
+msgid "operator"
+msgstr "Operator"
 
-#: spark_generators/models.py:53
+#: spark_generators/models.py:48
 msgid "value"
 msgstr "Wert"
 
-#: spark_generators/models.py:57
+#: spark_generators/models.py:52
 msgid "condition"
 msgstr "Bedingung"
