@@ -13,6 +13,20 @@ class ConditionInline(admin.TabularInline):
     extra = 0
 
 
+class SourceSelect(forms.Select):
+    def __init__(self, *args, **kwargs):
+        kwargs["choices"] = [("", "----------")] + list(
+            sorted(
+                (
+                    (key, capfirst(source.get("verbose_name", key)))
+                    for key, source in SOURCES.items()
+                ),
+                key=lambda row: row[1],
+            )
+        )
+        super().__init__(*args, **kwargs)
+
+
 @admin.register(Generator)
 class GeneratorAdmin(admin.ModelAdmin):
     inlines = [ConditionInline]
@@ -29,18 +43,7 @@ class GeneratorAdmin(admin.ModelAdmin):
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "source":
-            kwargs["widget"] = forms.Select(
-                choices=[("", "----------")]
-                + list(
-                    sorted(
-                        (
-                            (key, capfirst(source.get("verbose_name", key)))
-                            for key, source in SOURCES.items()
-                        ),
-                        key=lambda row: row[1],
-                    )
-                )
-            )
+            kwargs["widget"] = SourceSelect()
         return super().formfield_for_dbfield(db_field, request=request, **kwargs)
 
     def get_readonly_fields(self, request, obj=None):
