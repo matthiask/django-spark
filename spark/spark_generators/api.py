@@ -27,15 +27,17 @@ def events_from_generators(queryset=None):
         source = SOURCES[g["source"]]
         candidates = memoizer(source["candidates"])
         for candidate in candidates:
-            variables = source["variables"](candidate)
+            context = source["context"](candidate)
             for condition in g["conditions"]:
-                if condition["variable"] not in variables:
+                if condition["variable"] not in context:
                     break
-                if not condition["test"](variables[condition["variable"]]):
+                if not condition["test"](context[condition["variable"]]):
                     break
             else:
-                e = source["event"](
-                    instance=candidate, generator=g, variables=variables
-                )
+                e = {
+                    "group": g["group"],
+                    "key": "{}_{}".format(g["group"], candidate.pk),
+                    "context": context,
+                }
                 if Event.objects.create_if_new(e):
                     yield e

@@ -11,7 +11,7 @@ def events_from_stuff(stuff):
     yield {
         "group": "stuff_created",
         "key": "stuff_created_{}".format(stuff.pk),
-        "stuff": stuff,
+        "context": {"stuff": stuff},
     }
 
 
@@ -56,7 +56,7 @@ class SparkTestCase(TestCase):
         )
 
         self.assertEqual(len(events), 1)
-        self.assertEqual(events[0]["stuff"], stuff)
+        self.assertEqual(events[0]["context"]["stuff"], stuff)
 
         # Create some duplicates
         for stuff in Stuff.objects.all():

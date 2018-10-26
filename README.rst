@@ -40,8 +40,7 @@ matter):
         yield {
             "group": 'challenge_created',
             "key": 'challenge_created_%s' % challenge.pk,
-            # Attach any metadata to the Event (it is a types.SimpleNamespace)
-            "challenge": challenge,
+            "context": {"challenge": challenge},
         }
 
         if (date.today() - challenge.start_date).days > 2:
@@ -49,21 +48,21 @@ matter):
                 yield {
                     "group": 'challenge_inactivity_2d',
                     "key": 'challenge_inactivity_2d_%s' % challenge.pk,
-                    "challenge": challenge,
+                    "context": {"challenge": challenge},
                 }
 
         if (challenge.end_date - date.today()).days <= 2:
             yield {
                 "group": 'challenge_ends_2d',
                 "key": 'challenge_ends_2d_%s' % challenge.pk,
-                "challenge": challenge,
+                "context": {"challenge": challenge},
             }
 
         if challenge.end_date < date.today():
             yield {
                 "group": 'challenge_ended',
                 "key": 'challenge_ended_%s' % challenge.pk,
-                "challenge": challenge,
+                "context": {"challenge": challenge},
             }
 
 
@@ -75,13 +74,14 @@ Send mails related to challenges (uses django-authlib's
     from authlib.email import render_to_mail
 
     def send_challenge_mails(event):
+        challenge = event["context"]["challenge"]
         render_to_mail(
             # Different mail text per event group:
             "challenges/mails/%s" % event["group"],
             {
-                "challenge": event["challenge"],
+                "challenge": challenge,
             },
-            to=[event["challenge"].user.email],
+            to=[challenge.user.email],
         ).send(fail_silently=True)
 
 

@@ -7,21 +7,13 @@ from spark.spark_generators.models import Generator
 from testapp.models import Stuff
 
 
-def stuff_variables(instance):
-    return {"key": instance.key, "key_length": len(instance.key)}
+def stuff_context(instance):
+    return {"stuff": instance, "key": instance.key, "key_length": len(instance.key)}
 
 
 api.SOURCES["stuff"] = {
     "candidates": lambda: Stuff.objects.all(),
-    "variables": stuff_variables,
-    "event": lambda instance, generator, **kwargs: {
-        "group": generator["group"],
-        "key": "{generator[group]}_{instance.id}".format(
-            generator=generator, instance=instance
-        ),
-        "stuff": instance,
-        **kwargs,
-    },
+    "context": stuff_context,
 }
 
 
@@ -39,7 +31,8 @@ class GeneratorsTestCase(TestCase):
 
         self.assertEqual(len(events), 5)
         self.assertTrue(events[0]["key"].startswith("stuff_bla_"))
-        self.assertEqual(events[0]["variables"], {"key": "xxxxxx", "key_length": 6})
+        self.assertEqual(events[0]["context"]["key"], "xxxxxx")
+        self.assertEqual(events[0]["context"]["key_length"], 6)
 
         # as above but including rollbacks (4 per event, not just 3)
         with self.assertNumQueries(3 + 4 * 5):
@@ -102,7 +95,7 @@ class GeneratorsTestCase(TestCase):
         self.assertContains(response, "Description not available.")
         self.assertContains(response, 'id="conditions-group"')
 
-        stuff_variables.variables_description = [
+        stuff_context.context_description = [
             ("key", "The instance's key"),
             ("key_length", "The key length in chars"),
         ]

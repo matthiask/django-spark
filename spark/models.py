@@ -4,13 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 
 class EventQuerySet(models.QuerySet):
     def create_if_new(self, event):
-        context = dict(event)
         try:
             with transaction.atomic():
                 return self.create(
-                    key=context.pop("key"),
-                    group=context.pop("group"),
-                    context=repr(context),
+                    key=event["key"],
+                    group=event["group"],
+                    context=repr(event["context"]),
                 )
         except IntegrityError:
             return None

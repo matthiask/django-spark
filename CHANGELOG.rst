@@ -5,7 +5,9 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Changed API events to be dictionaries instead of
-  ``types.SimpleNamespace`` objects.
+  ``types.SimpleNamespace`` objects. The top level of the dictionary
+  normally contains ``key`` and ``group`` keys used by django-spark and
+  an additional ``context`` dictionary with arbitrary data.
 - Added a new ``Event.objects.create_if_new`` queryset method which
   understands event dictionaries.
 - Added a new ``spark.spark_generators`` app for configuring spark
