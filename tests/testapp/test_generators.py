@@ -22,8 +22,7 @@ class GeneratorsTestCase(TestCase):
         g = Generator.objects.create(source="stuff", group="stuff_bla")
         g.conditions.create(variable="key_length", operator=">", value=5)
 
-        for x in range(1, 11):
-            Stuff.objects.create(key="".join(["x"] * x))
+        stuffs = [Stuff.objects.create(key="".join(["x"] * x)) for x in range(1, 11)]
 
         # challenges, donations, stuffs, and inserts with savepoints and releases
         with self.assertNumQueries(3 + 3 * 5):
@@ -31,6 +30,7 @@ class GeneratorsTestCase(TestCase):
 
         self.assertEqual(len(events), 5)
         self.assertTrue(events[0]["key"].startswith("stuff_bla_"))
+        self.assertEqual(events[0]["context"]["stuff"], stuffs[5])
         self.assertEqual(events[0]["context"]["key"], "xxxxxx")
         self.assertEqual(events[0]["context"]["key_length"], 6)
 
