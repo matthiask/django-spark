@@ -30,7 +30,7 @@ class GeneratorAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "source":
             kwargs["widget"] = forms.Select(
-                choices=list(
+                choices=[("", "----------")] + list(
                     sorted(
                         (
                             (key, capfirst(source.get("verbose_name", key)))
