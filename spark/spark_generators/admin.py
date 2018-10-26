@@ -2,15 +2,16 @@ from django import forms
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from . import models
+from .api import CONTEXTS
+from .models import Condition, Generator
 
 
 class ConditionInline(admin.TabularInline):
-    model = models.Condition
+    model = Condition
     extra = 0
 
 
-@admin.register(models.Generator)
+@admin.register(Generator)
 class GeneratorAdmin(admin.ModelAdmin):
     inlines = [ConditionInline]
     list_display = ["group", "context", "get_conditions_display"]
@@ -21,9 +22,7 @@ class GeneratorAdmin(admin.ModelAdmin):
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "context":
-            kwargs["widget"] = forms.Select(
-                choices=[(v, v) for v in sorted(models.CONTEXTS)]
-            )
+            kwargs["widget"] = forms.Select(choices=[(v, v) for v in sorted(CONTEXTS)])
         return super().formfield_for_dbfield(db_field, request=request, **kwargs)
 
     def get_conditions_display(self, instance):
