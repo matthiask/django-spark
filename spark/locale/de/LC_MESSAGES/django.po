@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 09:10+0200\n"
+"POT-Creation-Date: 2018-10-26 11:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,9 +46,22 @@ msgstr "Ereignis"
 msgid "events"
 msgstr "Ereignisse"
 
-#: spark_generators/admin.py:42 spark_generators/models.py:53
+#: spark_generators/admin.py:28 spark_generators/models.py:53
 msgid "conditions"
 msgstr "Bedingungen"
+
+#: spark_generators/admin.py:51
+msgid "Description not available."
+msgstr "Beschreibung nicht verfügbar."
+
+#: spark_generators/admin.py:54
+#, python-format
+msgid "The \"%s\" source provides the following variables:"
+msgstr "Die Quelle \"%s\" stellt die folgenden Variablen bereit:"
+
+#: spark_generators/admin.py:62
+msgid "description"
+msgstr "Beschreibung"
 
 #: spark_generators/apps.py:7
 msgid "Spark generators"
