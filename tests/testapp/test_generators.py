@@ -7,7 +7,7 @@ from spark.spark_generators.models import Generator
 from testapp.models import Stuff
 
 
-api.CONTEXTS["stuff"] = {
+api.SOURCES["stuff"] = {
     "candidates": lambda: Stuff.objects.all(),
     "variables": lambda instance: {
         "key": instance.key,
@@ -26,8 +26,8 @@ api.CONTEXTS["stuff"] = {
 
 class GeneratorsTestCase(TestCase):
     def test_generators(self):
-        g = Generator.objects.create(context="stuff", group="stuff_bla")
-        g.conditions.create(variable="key_length", type=">", value=5)
+        g = Generator.objects.create(source="stuff", group="stuff_bla")
+        g.conditions.create(variable="key_length", operator=">", value=5)
 
         for x in range(1, 11):
             Stuff.objects.create(key="".join(["x"] * x))
@@ -47,8 +47,8 @@ class GeneratorsTestCase(TestCase):
         self.assertEqual(len(events), 0)
 
     def test_memoization(self):
-        Generator.objects.create(context="stuff", group="group1")
-        Generator.objects.create(context="stuff", group="group2")
+        Generator.objects.create(source="stuff", group="group1")
+        Generator.objects.create(source="stuff", group="group2")
         stuff = Stuff.objects.create(key="test")
 
         # generators, conditions and stuffs are only queried once
@@ -61,8 +61,8 @@ class GeneratorsTestCase(TestCase):
         )
 
     def test_not_exists(self):
-        g = Generator.objects.create(context="stuff", group="stuff_bla")
-        g.conditions.create(variable="NOT_EXISTS", type=">", value=5)
+        g = Generator.objects.create(source="stuff", group="stuff_bla")
+        g.conditions.create(variable="NOT_EXISTS", operator=">", value=5)
 
         Stuff.objects.create(key="test")
 
@@ -73,8 +73,8 @@ class GeneratorsTestCase(TestCase):
         self.assertEqual(events, [])
 
     def test_admin(self):
-        g = Generator.objects.create(context="stuff", group="stuff_bla")
-        g.conditions.create(variable="key_length", type=">", value=5)
+        g = Generator.objects.create(source="stuff", group="stuff_bla")
+        g.conditions.create(variable="key_length", operator=">", value=5)
 
         user = User.objects.create_superuser("admin", "admin@example.com", "admin")
         client = Client()
@@ -90,8 +90,8 @@ class GeneratorsTestCase(TestCase):
         self.assertContains(
             response,
             """
-            <select name="context" maxlength="50" id="id_context">
-            <option value="stuff" selected>stuff</option>
+            <select name="source" maxlength="50" id="id_source">
+            <option value="stuff" selected>Stuff</option>
             </select>
             """,
             html=True,

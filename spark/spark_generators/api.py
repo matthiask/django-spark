@@ -2,7 +2,7 @@ from spark.models import Event
 from spark.spark_generators.models import Generator
 
 
-CONTEXTS = {}
+SOURCES = {}
 
 
 def pure_function_memoizer():
@@ -24,17 +24,17 @@ def events_from_generators(queryset=None):
     for generator in queryset.prefetch_related("conditions"):
         g = generator.as_generator()
 
-        context = CONTEXTS[g["context"]]
-        candidates = memoizer(context["candidates"])
+        source = SOURCES[g["source"]]
+        candidates = memoizer(source["candidates"])
         for candidate in candidates:
-            variables = context["variables"](candidate)
+            variables = source["variables"](candidate)
             for condition in g["conditions"]:
                 if condition["variable"] not in variables:
                     break
                 if not condition["test"](variables[condition["variable"]]):
                     break
             else:
-                e = context["event"](
+                e = source["event"](
                     instance=candidate, generator=g, variables=variables
                 )
                 if Event.objects.create_if_new(e):

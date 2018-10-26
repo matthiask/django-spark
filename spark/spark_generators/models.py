@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Generator(models.Model):
     group = models.CharField(_("group"), max_length=50)
-    context = models.CharField(_("context"), max_length=50)
+    source = models.CharField(_("source"), max_length=50)
 
     class Meta:
         verbose_name = _("generator")
@@ -18,7 +18,7 @@ class Generator(models.Model):
     def as_generator(self):
         return {
             "group": self.group,
-            "context": self.context,
+            "source": self.source,
             "conditions": [
                 condition.as_condition() for condition in self.conditions.all()
             ],
@@ -26,7 +26,7 @@ class Generator(models.Model):
 
 
 class Condition(models.Model):
-    TYPES = [
+    OPERATORS = [
         (">", operator.gt),
         ("<", operator.lt),
         (">=", operator.ge),
@@ -42,8 +42,8 @@ class Condition(models.Model):
         verbose_name=_("generator"),
     )
     variable = models.CharField(_("variable"), max_length=50)
-    type = models.CharField(
-        _("type"), max_length=10, choices=[(d, d) for d, op in TYPES]
+    operator = models.CharField(
+        _("operator"), max_length=10, choices=[(d, d) for d, op in OPERATORS]
     )
     value = models.IntegerField(_("value"))
 
@@ -53,8 +53,8 @@ class Condition(models.Model):
         verbose_name_plural = _("conditions")
 
     def __str__(self):
-        return "{o.variable} {o.type} {o.value}".format(o=self)
+        return "{o.variable} {o.operator} {o.value}".format(o=self)
 
     def as_condition(self):
-        op = dict(self.TYPES)[self.type]
+        op = dict(self.OPERATORS)[self.operator]
         return {"variable": self.variable, "test": lambda v: op(v, self.value)}
