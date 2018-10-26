@@ -7,12 +7,13 @@ from spark.spark_generators.models import Generator
 from testapp.models import Stuff
 
 
+def stuff_variables(instance):
+    return {"key": instance.key, "key_length": len(instance.key)}
+
+
 api.SOURCES["stuff"] = {
     "candidates": lambda: Stuff.objects.all(),
-    "variables": lambda instance: {
-        "key": instance.key,
-        "key_length": len(instance.key),
-    },
+    "variables": stuff_variables,
     "event": lambda instance, generator, **kwargs: {
         "group": generator["group"],
         "key": "{generator[group]}_{instance.id}".format(
@@ -97,3 +98,21 @@ class GeneratorsTestCase(TestCase):
             """,
             html=True,
         )
+        self.assertContains(response, "field-description")
+        self.assertContains(response, "Description not available.")
+        self.assertContains(response, 'id="conditions-group"')
+
+        stuff_variables.variables_description = [
+            ("key", "The instance's key"),
+            ("key_length", "The key length in chars"),
+        ]
+        response = client.get(
+            "/admin/spark_generators/generator/{}/change/".format(g.pk)
+        )
+        self.assertContains(
+            response, "<br><strong>key_length</strong>: The key length in chars</div>"
+        )
+
+        response = client.get("/admin/spark_generators/generator/add/")
+        self.assertNotContains(response, "field-description")
+        self.assertNotContains(response, 'id="conditions-group"')
