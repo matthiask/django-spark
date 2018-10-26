@@ -90,7 +90,8 @@ class GeneratorsTestCase(TestCase):
         self.assertContains(
             response,
             """
-            <select name="source" maxlength="50" id="id_source">
+            <select name="source" maxlength="50" required id="id_source">
+            <option value="">----------</option>
             <option value="stuff" selected>Stuff</option>
             </select>
             """,
