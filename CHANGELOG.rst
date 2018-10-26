@@ -8,6 +8,8 @@ Change log
   ``types.SimpleNamespace`` objects.
 - Added a new ``Event.objects.create_if_new`` queryset method which
   understands event dictionaries.
+- Added a new ``spark.spark_generators`` app for configuring spark
+  generators using Django's administration interface.
 
 
 `0.2`_ (2018-10-16)
