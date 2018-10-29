@@ -3,7 +3,7 @@ from django.core.mail import EmailMessage
 from spark.spark_mails.models import Mail
 
 
-def process_mail_events(iterable, *, defaults=None):
+def process_mail_events(iterable, *, defaults=None, fail_silently=False):
     mails = {m.event_group: m for m in Mail.objects.all()}
 
     for e in iterable:
@@ -18,4 +18,4 @@ def process_mail_events(iterable, *, defaults=None):
                 kwargs["subject"] = subject
             if body:  # pragma: no cover (unlikely)
                 kwargs["body"] = body
-        EmailMessage(**kwargs).send(fail_silently=True)
+        EmailMessage(**kwargs).send(fail_silently=fail_silently)

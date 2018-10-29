@@ -4,6 +4,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Changed ``process_mail_events`` to not fail silently by default.
+
+
 `0.3`_ (2018-10-29)
 ~~~~~~~~~~~~~~~~~~~
 
