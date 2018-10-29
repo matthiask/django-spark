@@ -4,6 +4,9 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+`0.3`_ (2018-10-29)
+~~~~~~~~~~~~~~~~~~~
+
 - Changed API events to be dictionaries instead of
   ``types.SimpleNamespace`` objects. The top level of the dictionary
   normally contains ``key`` and ``group`` keys used by django-spark and
@@ -33,4 +36,5 @@ Change log
 
 .. _0.1: https://github.com/matthiask/django-spark/commit/4b8747afd
 .. _0.2: https://github.com/matthiask/django-spark/compare/0.1...0.2
-.. _Next version: https://github.com/matthiask/django-spark/compare/0.2...master
+.. _0.3: https://github.com/matthiask/django-spark/compare/0.2...0.3
+.. _Next version: https://github.com/matthiask/django-spark/compare/0.3...master
