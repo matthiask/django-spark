@@ -5,6 +5,8 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Changed ``process_mail_events`` to not fail silently by default.
+- Converted ``SOURCES`` from the ``spark.spark_generators.api`` into a
+  class attribute on the ``Generator`` model.
 
 
 `0.3`_ (2018-10-29)

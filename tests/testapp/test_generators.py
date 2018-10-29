@@ -12,7 +12,7 @@ def stuff_context(instance):
     return {"stuff": instance, "key": instance.key, "key_length": len(instance.key)}
 
 
-api.SOURCES["stuff"] = {
+Generator.SOURCES["stuff"] = {
     "candidates": lambda: Stuff.objects.all(),
     "context": stuff_context,
 }

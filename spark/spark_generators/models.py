@@ -5,6 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Generator(models.Model):
+    SOURCES = {}
+
     group = models.CharField(_("group"), max_length=50)
     source = models.CharField(_("source"), max_length=50)
 
@@ -16,12 +18,13 @@ class Generator(models.Model):
         return self.group
 
     def as_generator(self):
+        source = self.SOURCES[self.source]
         return {
             "group": self.group,
-            "source": self.source,
             "conditions": [
                 condition.as_condition() for condition in self.conditions.all()
             ],
+            **source,
         }
 
 

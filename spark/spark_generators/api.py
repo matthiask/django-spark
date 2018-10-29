@@ -1,9 +1,6 @@
 from spark.spark_generators.models import Generator
 
 
-SOURCES = {}
-
-
 def pure_function_memoizer():
     MEMO = {}
 
@@ -23,10 +20,9 @@ def events_from_generators(queryset=None):
     for generator in queryset.prefetch_related("conditions"):
         g = generator.as_generator()
 
-        source = SOURCES[g["source"]]
-        candidates = memoizer(source["candidates"])
+        candidates = memoizer(g["candidates"])
         for candidate in candidates:
-            context = source["context"](candidate)
+            context = g["context"](candidate)
             for condition in g["conditions"]:
                 if condition["variable"] not in context:
                     break

@@ -4,7 +4,6 @@ from django.utils.html import format_html, format_html_join
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
-from .api import SOURCES
 from .models import Condition, Generator
 
 
@@ -19,7 +18,7 @@ class SourceSelect(forms.Select):
             sorted(
                 (
                     (key, capfirst(source.get("verbose_name", key)))
-                    for key, source in SOURCES.items()
+                    for key, source in Generator.SOURCES.items()
                 ),
                 key=lambda row: row[1],
             )
@@ -47,10 +46,10 @@ class GeneratorAdmin(admin.ModelAdmin):
         return super().formfield_for_dbfield(db_field, request=request, **kwargs)
 
     def get_readonly_fields(self, request, obj=None):
-        return ["description"] if obj and obj.source in SOURCES else []
+        return ["description"] if obj and obj.source in Generator.SOURCES else []
 
     def description(self, instance):
-        source = SOURCES[instance.source]
+        source = Generator.SOURCES[instance.source]
         context = source["context"]
         if not hasattr(context, "context_description"):
             return _("Description not available.")
