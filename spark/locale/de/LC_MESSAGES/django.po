@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 11:00+0200\n"
+"POT-Creation-Date: 2018-10-29 10:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,44 +22,44 @@ msgstr ""
 msgid "Spark"
 msgstr "Funken"
 
-#: models.py:20
+#: models.py:19
 msgid "key"
 msgstr "Schlüssel"
 
-#: models.py:21 spark_generators/models.py:8
+#: models.py:20 spark_generators/models.py:8
 msgid "group"
 msgstr "Gruppe"
 
-#: models.py:22
+#: models.py:21
 msgid "created at"
 msgstr "erstellt um"
 
-#: models.py:23
+#: models.py:22
 msgid "context"
 msgstr "Kontext"
 
-#: models.py:29
+#: models.py:28
 msgid "event"
 msgstr "Ereignis"
 
-#: models.py:30
+#: models.py:29
 msgid "events"
 msgstr "Ereignisse"
 
-#: spark_generators/admin.py:28 spark_generators/models.py:53
+#: spark_generators/admin.py:42 spark_generators/models.py:53
 msgid "conditions"
 msgstr "Bedingungen"
 
-#: spark_generators/admin.py:51
+#: spark_generators/admin.py:56
 msgid "Description not available."
 msgstr "Beschreibung nicht verfügbar."
 
-#: spark_generators/admin.py:54
+#: spark_generators/admin.py:59
 #, python-format
-msgid "The \"%s\" source provides the following variables:"
-msgstr "Die Quelle \"%s\" stellt die folgenden Variablen bereit:"
+msgid "The \"%s\" source provides the following context:"
+msgstr "Die Quelle \"%s\" liefert den folgenden Kontext:"
 
-#: spark_generators/admin.py:62
+#: spark_generators/admin.py:66
 msgid "description"
 msgstr "Beschreibung"
 
@@ -94,3 +94,27 @@ msgstr "Wert"
 #: spark_generators/models.py:52
 msgid "condition"
 msgstr "Bedingung"
+
+#: spark_mails/admin.py:26
+msgid "rendered"
+msgstr "gerendert"
+
+#: spark_mails/apps.py:7
+msgid "Spark mails"
+msgstr "Funkenmails"
+
+#: spark_mails/models.py:9
+msgid "event group"
+msgstr "Ereignisgruppe"
+
+#: spark_mails/models.py:10
+msgid "template"
+msgstr "Vorlage"
+
+#: spark_mails/models.py:13
+msgid "mail"
+msgstr "Mail"
+
+#: spark_mails/models.py:14
+msgid "mails"
+msgstr "Mails"
