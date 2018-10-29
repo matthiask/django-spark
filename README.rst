@@ -128,7 +128,7 @@ events, for example like this:
     for model, sources in api.MODEL_SOURCES.items():
         for instance in model.objects.all():
             for source in sources:
-                api.process_events(source(instance))
+                api.process_events(api.only_new_events(source(instance)))
 
 
 - `Documentation <https://django-spark.readthedocs.io>`_

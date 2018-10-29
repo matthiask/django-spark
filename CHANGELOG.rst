@@ -12,6 +12,10 @@ Change log
   understands event dictionaries.
 - Added a new ``spark.spark_generators`` app for configuring spark
   generators using Django's administration interface.
+- Changed the API contract for sources and sinks: Sources and sinks are
+  both **NOT** responsible for only letting new events through. A new
+  ``spark.api.only_new_events`` filtering iterator has been added which
+  only yields events that haven't been seen yet.
 
 
 `0.2`_ (2018-10-16)

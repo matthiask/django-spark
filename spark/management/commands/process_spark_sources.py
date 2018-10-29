@@ -10,4 +10,4 @@ class Command(BaseCommand):
         for model, sources in api.MODEL_SOURCES.items():
             for instance in model.objects.all():  # FIXME allow restrictions
                 for source in sources:
-                    api.process_events(source(instance))
+                    api.process_events(api.only_new_events(source(instance)))

@@ -62,7 +62,7 @@ class SparkTestCase(TestCase):
         for stuff in Stuff.objects.all():
             events_to_process = list(events_from_stuff(stuff))
             self.assertTrue(len(events_to_process), 1)
-            api.process_events(events_to_process)
+            api.process_events(api.only_new_events(events_to_process))
 
         # But still only one event
         self.assertEqual(Event.objects.count(), 1)

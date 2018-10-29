@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
+from spark.api import only_new_events
 from spark.spark_generators import api
 from spark.spark_generators.models import Generator
 
@@ -17,6 +18,10 @@ api.SOURCES["stuff"] = {
 }
 
 
+def new_events_from_generators():
+    return only_new_events(api.events_from_generators())
+
+
 class GeneratorsTestCase(TestCase):
     def test_generators(self):
         g = Generator.objects.create(source="stuff", group="stuff_bla")
@@ -26,7 +31,7 @@ class GeneratorsTestCase(TestCase):
 
         # challenges, donations, stuffs, and inserts with savepoints and releases
         with self.assertNumQueries(3 + 3 * 5):
-            events = list(api.events_from_generators())
+            events = list(new_events_from_generators())
 
         self.assertEqual(len(events), 5)
         self.assertTrue(events[0]["key"].startswith("stuff_bla_"))
@@ -36,7 +41,7 @@ class GeneratorsTestCase(TestCase):
 
         # as above but including rollbacks (4 per event, not just 3)
         with self.assertNumQueries(3 + 4 * 5):
-            events = list(api.events_from_generators())
+            events = list(new_events_from_generators())
 
         self.assertEqual(len(events), 0)
 
@@ -47,7 +52,7 @@ class GeneratorsTestCase(TestCase):
 
         # generators, conditions and stuffs are only queried once
         with self.assertNumQueries(3 + 3 * 2):
-            events = list(api.events_from_generators())
+            events = list(new_events_from_generators())
 
         self.assertEqual(
             set(event["key"] for event in events),
@@ -62,7 +67,7 @@ class GeneratorsTestCase(TestCase):
 
         # No queries for creating stuffs ... all are skipped
         with self.assertNumQueries(3):
-            events = list(api.events_from_generators())
+            events = list(new_events_from_generators())
 
         self.assertEqual(events, [])
 

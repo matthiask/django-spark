@@ -1,4 +1,3 @@
-from spark.models import Event
 from spark.spark_generators.models import Generator
 
 
@@ -39,5 +38,4 @@ def events_from_generators(queryset=None):
                     "key": "{}_{}".format(g["group"], candidate.pk),
                     "context": context,
                 }
-                if Event.objects.create_if_new(e):
-                    yield e
+                yield e
