@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "testapp",
     "spark",
     "spark.spark_generators",
+    "spark.spark_mails",
 ]
 
 MEDIA_ROOT = "/media/"

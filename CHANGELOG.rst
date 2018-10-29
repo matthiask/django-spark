@@ -16,6 +16,7 @@ Change log
   both **NOT** responsible for only letting new events through. A new
   ``spark.api.only_new_events`` filtering iterator has been added which
   only yields events that haven't been seen yet.
+- Added a new ``spark.spark_mails`` app for transactional mails.
 
 
 `0.2`_ (2018-10-16)
