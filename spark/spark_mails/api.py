@@ -12,10 +12,14 @@ def process_mail_events(iterable, *, defaults=None, fail_silently=False):
         kwargs = dict(defaults) if defaults else {}
         kwargs.update(e["context"]["spark_mail"])
         if e["group"] in mails:
-            # TODO What about invalid templates? (They should not be saveable, but...)
-            subject, body = mails[e["group"]].render(e["context"])
-            if subject:
-                kwargs["subject"] = subject
-            if body:
-                kwargs["body"] = body
+            try:
+                subject, body = mails[e["group"]].render(e["context"])
+            except Exception:
+                # TODO logging
+                pass
+            else:
+                if subject:
+                    kwargs["subject"] = subject
+                if body:
+                    kwargs["body"] = body
         EmailMessage(**kwargs).send(fail_silently=fail_silently)

@@ -137,3 +137,31 @@ class MailsTestCase(TestCase):
         sent = mail.outbox[0]
         self.assertEqual(sent.to, [user.email])
         self.assertEqual(sent.subject, "Would be overridden if template had content")
+
+    def test_crashing_template(self):
+        def crash():
+            raise ValueError("Crash me please")
+
+        Mail.objects.create(event_group="stuff_mail", template_source="{{ hello }}")
+        events = [
+            {
+                "group": "stuff_mail",
+                "key": "stuff_mail_3",
+                "context": {
+                    "hello": crash,
+                    "spark_mail": {
+                        "to": ["hello@example.com"],
+                        "subject": "Would be overridden",
+                        "body": "Yes.",
+                    },
+                },
+            }
+        ]
+        api.process_mail_events(only_new_events(events))
+        api.process_mail_events(only_new_events(events))  # Twice.
+
+        self.assertEqual(len(mail.outbox), 1)
+        sent = mail.outbox[0]
+        self.assertEqual(sent.to, ["hello@example.com"])
+        self.assertEqual(sent.subject, "Would be overridden")
+        self.assertEqual(sent.body, "Yes.")
