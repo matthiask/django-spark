@@ -1,6 +1,11 @@
+import logging
+
 from django.core.mail import EmailMessage
 
 from spark.spark_mails.models import Mail
+
+
+logger = logging.getLogger(__name__)
 
 
 def process_mail_events(iterable, *, defaults=None, fail_silently=False):
@@ -15,8 +20,7 @@ def process_mail_events(iterable, *, defaults=None, fail_silently=False):
             try:
                 subject, body = mails[e["group"]].render(e["context"])
             except Exception:
-                # TODO logging
-                pass
+                logger.exception("Error while rendering mail subject and body")
             else:
                 if subject:
                     kwargs["subject"] = subject

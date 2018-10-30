@@ -10,6 +10,7 @@ Change log
 - Slightly changed the signature of ``events_from_generators`` to accept
   generator descriptions instead of a generator queryset to allow using
   it without generator model instances.
+- Protected ``process_mail_events`` against crashing templates.
 
 
 `0.3`_ (2018-10-29)
