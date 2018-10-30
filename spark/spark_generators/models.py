@@ -4,11 +4,18 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+class GeneratorQuerySet(models.QuerySet):
+    def as_generators(self):
+        return [g.as_generator() for g in self.prefetch_related("conditions")]
+
+
 class Generator(models.Model):
     SOURCES = {}
 
     group = models.CharField(_("group"), max_length=50)
     source = models.CharField(_("source"), max_length=50)
+
+    objects = GeneratorQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("generator")

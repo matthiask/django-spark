@@ -27,6 +27,14 @@ class GeneratorsTestCase(TestCase):
         g = Generator.objects.create(source="stuff", group="stuff_bla")
         g.conditions.create(variable="key_length", operator=">", value=5)
 
+        generators = Generator.objects.as_generators()
+        self.assertEqual(len(generators), 1)
+        self.assertEqual(
+            set(generators[0].keys()), {"candidates", "conditions", "context", "group"}
+        )
+        self.assertEqual(len(generators[0]["conditions"]), 1)
+        self.assertEqual(generators[0]["conditions"][0]["variable"], "key_length")
+
         stuffs = [Stuff.objects.create(key="".join(["x"] * x)) for x in range(1, 11)]
 
         # challenges, donations, stuffs, and inserts with savepoints and releases
@@ -114,3 +122,19 @@ class GeneratorsTestCase(TestCase):
         response = client.get("/admin/spark_generators/generator/add/")
         self.assertNotContains(response, "field-description")
         self.assertNotContains(response, 'id="conditions-group"')
+
+    def test_generators_without_model(self):
+        generator = {
+            "candidates": lambda: Stuff.objects.all(),
+            "conditions": [{"variable": "key_length", "test": lambda v: v < 3}],
+            "context": stuff_context,
+            "group": "stuff_no_model_test",
+        }
+
+        [Stuff.objects.create(key="".join(["x"] * x)) for x in range(1, 11)]
+
+        # Select stuffs, savepoint/insert/release of two events
+        with self.assertNumQueries(1 + 3 * 2):
+            list(only_new_events(api.events_from_generators(generators=[generator])))
+        with self.assertNumQueries(1 + 4 * 2):
+            list(only_new_events(api.events_from_generators(generators=[generator])))
