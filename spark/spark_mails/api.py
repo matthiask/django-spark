@@ -14,8 +14,8 @@ def process_mail_events(iterable, *, defaults=None, fail_silently=False):
         if e["group"] in mails:
             # TODO What about invalid templates? (They should not be saveable, but...)
             subject, body = mails[e["group"]].render(e["context"])
-            if subject:  # pragma: no cover (unlikely)
+            if subject:
                 kwargs["subject"] = subject
-            if body:  # pragma: no cover (unlikely)
+            if body:
                 kwargs["body"] = body
         EmailMessage(**kwargs).send(fail_silently=fail_silently)

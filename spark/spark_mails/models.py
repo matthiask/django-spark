@@ -39,9 +39,12 @@ class Mail(models.Model):
             for line in self.template.render(Context(context)).splitlines()
         )
         subject = ""
-        while True:
-            line = next(lines)
-            if line:
-                subject = line
-                break
+        try:
+            while True:
+                line = next(lines)
+                if line:
+                    subject = line
+                    break
+        except StopIteration:  # if lines is empty
+            pass
         return subject, "\n".join(lines).strip("\n")

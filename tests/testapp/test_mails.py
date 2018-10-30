@@ -57,6 +57,7 @@ class MailsTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         sent = mail.outbox[0]
         self.assertEqual(sent.to, [user.email])
+        self.assertEqual(sent.subject, "Dear test")
 
     def test_invalid_mail(self):
         m = Mail(event_group="test", template_source="""{{ Bla.21342._"*32424 }}""")
@@ -108,3 +109,31 @@ class MailsTestCase(TestCase):
         m = Mail.objects.create(event_group="stuff_mail", template_source=MAIL)
         response = client.get("/admin/spark_mails/mail/{}/change/".format(m.pk))
         self.assertContains(response, "Best regards</code></div>")
+
+    def test_empty_template(self):
+        Mail.objects.create(event_group="stuff_mail", template_source="")
+        user = User.objects.create(username="test", email="test@example.com")
+        stuff = Stuff.objects.create(key="asdf")
+        events = [
+            {
+                "group": "stuff_mail",
+                "key": "stuff_mail_2",
+                "context": {
+                    "key": stuff.key,
+                    "key_length": len(stuff.key),
+                    "user": user,
+                    "spark_mail": {
+                        "to": [user.email],
+                        "subject": "Would be overridden if template had content",
+                    },
+                },
+            },
+            {"group": "stuff_stuff", "key": "stuff_stuff_1", "context": {}},
+        ]
+        api.process_mail_events(only_new_events(events))
+        api.process_mail_events(only_new_events(events))  # Twice.
+
+        self.assertEqual(len(mail.outbox), 1)
+        sent = mail.outbox[0]
+        self.assertEqual(sent.to, [user.email])
+        self.assertEqual(sent.subject, "Would be overridden if template had content")
