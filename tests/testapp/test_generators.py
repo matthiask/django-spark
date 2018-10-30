@@ -135,6 +135,6 @@ class GeneratorsTestCase(TestCase):
 
         # Select stuffs, savepoint/insert/release of two events
         with self.assertNumQueries(1 + 3 * 2):
-            list(only_new_events(api.events_from_generators(generators=[generator])))
+            list(only_new_events(api.events_from_generators([generator])))
         with self.assertNumQueries(1 + 4 * 2):
-            list(only_new_events(api.events_from_generators(generators=[generator])))
+            list(only_new_events(api.events_from_generators([generator])))

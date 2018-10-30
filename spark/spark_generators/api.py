@@ -10,7 +10,7 @@ def pure_function_memoizer():
     return call
 
 
-def events_from_generators(*, generators=None):
+def events_from_generators(generators=None):
     if generators is None:
         from spark.spark_generators.models import Generator
 
