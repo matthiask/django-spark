@@ -1,7 +1,5 @@
 import re
 
-from django.db.models import signals
-
 
 MODEL_SOURCES = {}
 HANDLERS = []
@@ -31,6 +29,8 @@ def process_events(iterable):
 
 
 def register_model_event_source(*, sender, source):
+    from django.db.models import signals
+
     MODEL_SOURCES.setdefault(sender, []).append(source)
 
     def on_post_save(sender, instance, **kwargs):

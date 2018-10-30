@@ -59,7 +59,7 @@ Send mails related to challenges (uses django-authlib's
 
     from authlib.email import render_to_mail
 
-    def send_challenge_mails(event):
+    def send_challenge_mail(event):
         challenge = event["context"]["challenge"]
         render_to_mail(
             # Different mail text per event group:
@@ -75,13 +75,12 @@ Register the handlers:
 
 .. code-block:: python
 
+    from spark import api
+
     class ChallengesConfig(AppConfig):
         def ready(self):
-            # Prevent circular imports:
-            from spark import api
-
             api.register_group_handler(
-                handler=send_challenge_mails,
+                handler=send_challenge_mail,
                 group=r'^challenge',
             )
 
@@ -89,7 +88,7 @@ Register the handlers:
 
             # All this does right now is register a post_save signal
             # handler which runs the challenge instance through
-            # events_from_challenge:
+            # events_from_challenge and processes the events:
             api.register_model_event_source(
                 sender=Challenge,
                 source=events_from_challenge,
