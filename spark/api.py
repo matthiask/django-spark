@@ -7,6 +7,14 @@ MODEL_SOURCES = {}
 HANDLERS = []
 
 
+def event(group, instance_id, context=None):
+    return {
+        "group": group,
+        "key": "{}_{}".format(group, instance_id),
+        "context": {} if context is None else context,
+    }
+
+
 def only_new_events(iterable):
     from .models import Event
 

@@ -1,3 +1,6 @@
+from spark.api import event
+
+
 def pure_function_memoizer():
     MEMO = {}
 
@@ -27,8 +30,4 @@ def events_from_generators(generators=None):
                 if not condition["test"](context[condition["variable"]]):
                     break
             else:
-                yield {
-                    "group": generator["group"],
-                    "key": "{}_{}".format(generator["group"], candidate.pk),
-                    "context": context,
-                }
+                yield event(generator["group"], candidate.pk, context)
