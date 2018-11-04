@@ -4,13 +4,20 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
-- Changed ``process_mail_events`` to not fail silently by default.
-- Converted ``SOURCES`` from the ``spark.spark_generators.api`` into a
-  class attribute on the ``Generator`` model.
-- Slightly changed the signature of ``events_from_generators`` to accept
-  generator descriptions instead of a generator queryset to allow using
-  it without generator model instances.
-- Protected ``process_mail_events`` against crashing templates.
+- Added a ``spark.api.event`` helper for creating events.
+- Moved all imports in the ``spark.api`` module into the functions using
+  them so that the module can always be imported early during startup.
+- Decoupled the generators API from ``Generator`` model instances.
+  Documentation will be written after some additional `real world
+  testing <https://406.ch/writing/writing-documentation/>`__.
+  ``events_from_generators`` now accepts a list of generator
+  descriptions instead of a generator queryset. The ``.as_generators()``
+  queryset method easily allows creating a suitable generator
+  description.
+- Separated ``EmailMessage`` generation from sending in the
+  ``spark_mails`` API and made mail sending not fail silently by
+  default.
+- Fixed a bug where an empty template would crash the mail rendering.
 
 
 `0.3`_ (2018-10-29)
