@@ -1,13 +1,20 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.template import Context, Template
-from django.utils.functional import cached_property
+from django.utils.functional import cached_property, lazy
 from django.utils.translation import ugettext_lazy as _
+
+
+class MailQuerySet(models.QuerySet):
+    def as_mails(self):
+        return lazy(lambda: {m.event_group: m for m in self}, dict)()
 
 
 class Mail(models.Model):
     event_group = models.CharField(_("event group"), max_length=50, unique=True)
     template_source = models.TextField(_("template"))
+
+    objects = MailQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("mail")

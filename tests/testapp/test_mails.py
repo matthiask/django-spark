@@ -92,6 +92,37 @@ class MailsTestCase(TestCase):
         sent = mail.outbox[0]
         self.assertEqual(sent.to, [user.email])
 
+    def test_lazyness(self):
+        # mails, two events
+        user = User.objects.create(username="test", email="test@example.com")
+        with self.assertNumQueries(4):
+            api.process_mail_events(
+                only_new_events(
+                    [
+                        {
+                            "group": "stuff_mail",
+                            "key": "stuff_mail_1",
+                            "context": {
+                                "user": user,
+                                "spark_mail": {"to": [user.email]},
+                            },
+                        }
+                    ]
+                )
+            )
+        with self.assertNumQueries(3):  # No mails, but an event
+            api.process_mail_events(
+                only_new_events(
+                    [
+                        {
+                            "group": "stuff_mail",
+                            "key": "stuff_mail_2",
+                            "context": {"user": user},
+                        }
+                    ]
+                )
+            )
+
     def test_admin(self):
         user = User.objects.create_superuser("admin", "admin@example.com", "admin")
         client = Client()

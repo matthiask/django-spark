@@ -14,7 +14,7 @@ def process_mail_events(iterable, *, defaults=None, fail_silently=False):
 
 
 def mails_from_events(iterable, *, defaults=None):
-    mails = {m.event_group: m for m in Mail.objects.all()}
+    mails = Mail.objects.as_mails()
 
     for e in iterable:
         if "spark_mail" not in e["context"]:
