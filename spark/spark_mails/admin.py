@@ -4,16 +4,14 @@ from django.utils.html import format_html
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
-from django.utils.translation import ugettext_lazy as _
 from .models import Mail
 
 
-def spark_mails_context(instance):
-    return {}
-
-
-if getattr(settings, "SPARK_MAILS_CONTEXT", None):
-    spark_mails_context = import_string(settings.SPARK_MAILS_CONTEXT)
+spark_mails_context = (
+    import_string(settings.SPARK_MAILS_CONTEXT)
+    if getattr(settings, "SPARK_MAILS_CONTEXT", None)
+    else lambda instance: {}
+)
 
 
 @admin.register(Mail)
