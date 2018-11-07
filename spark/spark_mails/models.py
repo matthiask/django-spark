@@ -40,7 +40,7 @@ class Mail(models.Model):
     def template(self):
         return Template(self.template_source)
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         lines = iter(
             line.rstrip()
             for line in self.template.render(Context(context)).splitlines()
@@ -54,4 +54,7 @@ class Mail(models.Model):
                     break
         except StopIteration:  # if lines is empty
             pass
-        return subject, "\n".join(lines).strip("\n")
+        body = "\n".join(lines).strip("\n")
+        kwargs["subject"] = subject or kwargs.get("subject", "")
+        kwargs["body"] = body or kwargs.get("body", "")
+        return kwargs

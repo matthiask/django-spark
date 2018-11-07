@@ -26,8 +26,8 @@ class MailAdmin(admin.ModelAdmin):
         try:
             return format_html(
                 '<div style="white-space:pre-wrap; max-width:40rem">'
-                "<code>{}\n\n{}</code></div>",
-                *instance.render(spark_mails_context(instance)),
+                "<code>{subject}\n\n{body}</code></div>",
+                **instance.render(spark_mails_context(instance)),
             )
         except Exception:
             return format_html('<div style="color:red">INVALID</div>')

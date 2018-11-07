@@ -30,12 +30,12 @@ class MailsTestCase(TestCase):
 
         stuff = Stuff.objects.create(key="asdf")
 
-        subject, body = m.render(
+        kwargs = m.render(
             {"user": user, "key": stuff.key, "key_length": len(stuff.key)}
         )
 
-        self.assertEqual(subject, "Dear test")
-        self.assertEqual(body, "This is the key: asdf (4)\n\nBest regards")
+        self.assertEqual(kwargs["subject"], "Dear test")
+        self.assertEqual(kwargs["body"], "This is the key: asdf (4)\n\nBest regards")
 
         events = [
             {
