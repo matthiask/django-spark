@@ -25,7 +25,7 @@ class MailAdmin(admin.ModelAdmin):
     def rendered(self, instance):
         try:
             return format_html(
-                '<div style="white-space:pre-wrap; max-width:40rem">'
+                '<div style="white-space:pre-wrap; max-width:40rem; clear:both">'
                 "<code>{subject}\n\n{body}</code></div>",
                 **instance.render(spark_mails_context(instance)),
             )
