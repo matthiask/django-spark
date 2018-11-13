@@ -29,7 +29,8 @@ class SourceSelect(forms.Select):
 @admin.register(Generator)
 class GeneratorAdmin(admin.ModelAdmin):
     inlines = [ConditionInline]
-    list_display = ["group", "source", "get_conditions_display"]
+    list_display = ["group", "source", "get_conditions_display", "is_active"]
+    list_editable = ["is_active"]
     ordering = ["source", "group"]
 
     def get_queryset(self, request):

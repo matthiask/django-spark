@@ -17,7 +17,7 @@ def events_from_generators(generators=None):
     if generators is None:
         from spark.spark_generators.models import Generator
 
-        generators = Generator.objects.as_generators()
+        generators = Generator.objects.active().as_generators()
     memoizer = pure_function_memoizer()
 
     for generator in generators:

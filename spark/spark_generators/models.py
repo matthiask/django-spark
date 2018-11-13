@@ -5,6 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class GeneratorQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_active=True)
+
     def as_generators(self):
         return [g.as_generator() for g in self.prefetch_related("conditions")]
 
@@ -12,6 +15,7 @@ class GeneratorQuerySet(models.QuerySet):
 class Generator(models.Model):
     SOURCES = {}
 
+    is_active = models.BooleanField(_("is active"), default=True)
     group = models.CharField(_("group"), max_length=50)
     source = models.CharField(_("source"), max_length=50)
 
