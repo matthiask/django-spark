@@ -13,8 +13,8 @@ def process_mail_events(iterable, *, defaults=None, fail_silently=False):
         mail.send(fail_silently=fail_silently)
 
 
-def mails_from_events(iterable, *, defaults=None):
-    mails = Mail.objects.as_mails()
+def mails_from_events(iterable, *, defaults=None, mails=None):
+    mails = Mail.objects.as_mails() if mails is None else mails
     defaults = {} if defaults is None else defaults
 
     for e in iterable:
