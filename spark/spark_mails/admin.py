@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib import admin
 from django.utils.html import format_html
@@ -12,6 +14,7 @@ spark_mails_context = (
     if getattr(settings, "SPARK_MAILS_CONTEXT", None)
     else lambda instance: {}
 )
+logger = logging.getLogger(__name__)
 
 
 @admin.register(Mail)
@@ -30,6 +33,7 @@ class MailAdmin(admin.ModelAdmin):
                 **instance.render(spark_mails_context(instance)),
             )
         except Exception:
+            logger.exception("Error while rendering a preview of the mail.")
             return format_html('<div style="color:red">INVALID</div>')
 
     rendered.short_description = _("rendered")
