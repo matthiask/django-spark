@@ -18,6 +18,8 @@ Change log
   ``spark_mails`` API and made mail sending not fail silently by
   default.
 - Fixed a bug where an empty template would crash the mail rendering.
+- Rewrote the Travis CI configuration to make jobs explicit, added newer
+  Django and Python versions to the matrix.
 
 
 `0.3`_ (2018-10-29)
